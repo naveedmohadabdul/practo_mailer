@@ -1,30 +1,50 @@
-Bottle on OpenShift
+Practo Mass Mailer
 ===================
 
-This git repository helps you get up and running quickly w/ a Bottle installation
-on the Red Hat OpenShift PaaS.
+This git repository helps you get up and running quickly  Practo's Mass Mailer
+App.The Mass Mailer is written in Python-2.6 using the bottle web framework 
+and Mongodb. Bottle is a fast, simple and lightweight WSGI micro web-framework 
+for Python. It is distributed as a single file module and has no dependencies 
+other than the Python Standard Library.MongoDB (from "humongous") is an open-source 
+document database, and the leading NoSQL database written in C++.
+Model view controller architecture is used for implementing the user-interfaces
 
 
-Running on OpenShift
+Running on Linux or Mac
 ----------------------------
 
-Create an account at http://openshift.redhat.com/
+First download the mongodb. 
 
-Create a python-2.6 application
+Download the latest release.
+	In a system shell, download the latest release for 64-bit Linux.
 
-    rhc app create -a bottle -t python-2.6
+    curl -O http://downloads.mongodb.org/linux/mongodb-linux-x86_64-2.4.8.tgz
 
-Add this upstream bottle repo
-
-    cd bottle
-    git remote add upstream -m master git://github.com/openshift/bottle-openshift-quickstart.git
-    git pull -s recursive -X theirs upstream master
+Extract MongoDB From Archive
+	
+    Extract the files from the downloaded archive.
     
-Then push the repo upstream
+    tar -zxvf mongodb-linux-x86_64-2.4.8.tgz
 
-    git push
+Then install Pymongo.
 
-That's it, you can now checkout your application at:
+    Driver for connection python application to the mongo database.
+    
+    sudo pip install pymongo
 
-    http://bottle-$yournamespace.rhcloud.com
+Clone this Application.
+
+     git clone https://github.com/naveedmohadabdul/practo_mailer
+
+The bottle web framework is provided along with the practo mass mailing application.
+    
+Then start the mongodb server 
+
+    ./mongo
+
+Start the Application.
+	
+	python  practo-mailer.py	
+
+You can now run your application
 
