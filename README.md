@@ -21,8 +21,6 @@ Download the latest release.
     curl -O http://downloads.mongodb.org/linux/mongodb-linux-x86_64-2.4.8.tgz
 
 Extract MongoDB From Archive
-	
-    Extract the files from the downloaded archive.
     
     tar -zxvf mongodb-linux-x86_64-2.4.8.tgz
 
