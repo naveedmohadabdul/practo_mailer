@@ -37,10 +37,10 @@ Clone this Application.
      git clone https://github.com/naveedmohadabdul/practo_mailer
 
 The bottle web framework is provided along with the practo mass mailing application.
-    
+
 Then start the mongodb server 
 
-    ./mongo
+    ./mongodb
 
 Start the Application.
 	
