@@ -11,7 +11,7 @@
 <p>
 <form action="/body_filter" method="POST">
 <h3>Practo patient data</h3>
-Select patients to mail...
+Select patient's to mail...
 <table>
 <tr>
 %for i in items:
