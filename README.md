@@ -38,7 +38,7 @@ The bottle web framework is provided along with the practo mass mailing applicat
 
 Then start the mongodb server 
 
-    ./mongodb
+    ./mongod
 
 Start the Application.
 	
