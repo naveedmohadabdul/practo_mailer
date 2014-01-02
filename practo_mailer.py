@@ -99,14 +99,18 @@ def body_filter():
 	
 @bottle.post('/mass_mail')
 def mass_mail():
-	# Requesting the entered data 
-	name = strip_tags(bottle.request.forms.get("name"))
-	password= strip_tags(bottle.request.forms.get("password"))
-	fromaddr=strip_tags(bottle.request.forms.get("fromaddr"))
-	to_email= strip_tags(bottle.request.forms.get("P_Email")).split(',')
-	to_UID= strip_tags(bottle.request.forms.get("P_UID")).split(',')
-	sub= strip_tags(bottle.request.forms.get("subject"))
-	msg= strip_tags(bottle.request.forms.get("message"))
+	# Requesting the entered data
+	try:
+	   name = strip_tags(bottle.request.forms.get("name"))
+	   password= strip_tags(bottle.request.forms.get("password"))
+	   fromaddr=strip_tags(bottle.request.forms.get("fromaddr"))
+	   to_email= strip_tags(bottle.request.forms.get("P_Email")).split(',')
+	   to_UID= strip_tags(bottle.request.forms.get("P_UID")).split(',')
+	   sub= strip_tags(bottle.request.forms.get("subject"))
+	   msg= strip_tags(bottle.request.forms.get("message"))
+	except:
+	       err = "Please enter all the requestef field's"
+	       bottle.template("except",{'err':err})
 	err = noticeEmail(name,password,fromaddr,to_email,sub,msg)
 	if err!=" ":
 		#Handling erros
