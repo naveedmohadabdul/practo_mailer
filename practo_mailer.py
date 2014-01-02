@@ -88,7 +88,7 @@ def body_filter():
 	body = body[0].replace('%40','@').replace('email=','').replace('&submit=Submit','').replace('Mail=Mail','').split('&')
 	if body[0]=='':
 		err = "Patients not Selected"
-		return bottle.template("error",{"err":err})
+		return bottle.template("except",{"err":err})
 	emails = {}
 	#creating a dictionary with name as key and email as value
 	for i in body:
