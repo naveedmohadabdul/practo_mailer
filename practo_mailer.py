@@ -1,7 +1,6 @@
 import bottle
 import httplib2
 import json
-import hashlib
 from HtmlStripper import strip_tags
 import datetime
 import smtplib
