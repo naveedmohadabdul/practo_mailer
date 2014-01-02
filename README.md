@@ -26,7 +26,7 @@ Extract MongoDB From Archive
 
 Then install Pymongo.
 
-    Driver for connection python application to the mongo database.
+    #Driver for connection python application to the mongo database.
     
     sudo pip install pymongo
 
