@@ -38,7 +38,7 @@ def noticeEmail(usr, psw, fromaddr,toaddrlst,sub,msg1):
 	return "No suitable authentication method was found." 
     # Send email
     senddate=datetime.datetime.strftime(datetime.datetime.now(), '%Y-%m-%d')
-    subject="Mail From Practo"+sub
+    subject=" "+sub
     msg=''' '''+msg1
     for toaddr in toaddrlst:
 	m="Date: %s\r\nFrom: %s\r\nTo: %s\r\nSubject: %s\r\nX-Mailer: My-Mail\r\n\r\n" % (senddate, fromaddr, toaddr, subject)
@@ -65,7 +65,7 @@ def insert_data(uid,to_UID,sub,msg):
 	try:
 		people.insert(mass_mail)
 	except Exception:
-		error = "Problem inserting the collection"
+		err = "Problem inserting the collection"
 		bottle.template('except',{'err':'err'})
 	return 
 
