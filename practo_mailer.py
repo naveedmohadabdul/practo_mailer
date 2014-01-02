@@ -56,7 +56,7 @@ def insert_data(uid,to_UID,sub,msg):
 	try:
 		connection = pymongo.MongoClient("mongodb://localhost")
 	except Exception:
-		error = "Problem connecting to the databse"
+		err = "Problem connecting to the databse"
 		bottle.template('except',{'err':'err'})
 	db = connection.practo
 	people = db.mailer
