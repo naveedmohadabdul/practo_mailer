@@ -107,8 +107,8 @@ def mass_mail():
 	to_UID= strip_tags(bottle.request.forms.get("P_UID")).split(',')
 	sub= strip_tags(bottle.request.forms.get("subject"))
 	msg= strip_tags(bottle.request.forms.get("message"))
-	error = noticeEmail(name,password,fromaddr,to_email,sub,msg)
-	if error!=" ":
+	err = noticeEmail(name,password,fromaddr,to_email,sub,msg)
+	if err!=" ":
 		#Handling erros
 		return bottle.template("except",{"err":err})
 	else:	
