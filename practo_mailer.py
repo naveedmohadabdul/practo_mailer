@@ -1,4 +1,4 @@
-import bottle
+from bottle import *
 import httplib2
 import json
 from HtmlStripper import strip_tags
@@ -56,7 +56,7 @@ def insert_data(uid,to_UID,sub,msg):
 		connection = pymongo.MongoClient("mongodb://localhost")
 	except Exception:
 		err = "Problem connecting to the databse"
-		bottle.template('except',{'err':'err'})
+		template('except',{'err':'err'})
 	db = connection.practo
 	people = db.mailer
 	dat_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -65,11 +65,11 @@ def insert_data(uid,to_UID,sub,msg):
 		people.insert(mass_mail)
 	except Exception:
 		err = "Problem inserting the collection"
-		bottle.template('except',{'err':'err'})
+		template('except',{'err':'err'})
 	return 
 
 	
-@bottle.route('/')
+@route('/')
 def home_page():
 	h = httplib2.Http(".cache")
 	h.add_credentials('user', 'pass')
@@ -77,59 +77,60 @@ def home_page():
 	r, content = h.request("https://patients.apiary.io/patients", "GET")
 	#Loading json's content 
 	data = json.loads(content)
-	return bottle.template('app',{'items':data})
+	return template('app',{'items':data})
 
-@bottle.post('/body_filter')
+@post('/body_filter')
 def body_filter():
 	#Script for retrieving the body of the post  
-	body =  bottle.request.body.readlines()
+	body =  request.body.readlines()
 	#Filtering the body's  request
 	body = body[0].replace('%40','@').replace('email=','').replace('&submit=Submit','').replace('Mail=Mail','').split('&')
 	if body[0]=='':
 		err = "Patients not Selected"
-		return bottle.template("except",{"err":err})
+		return template("except",{"err":err})
 	emails = {}
 	#creating a dictionary with name as key and email as value
 	for i in body:
 		c = i.split('XXX')
 		if c[0]!="":
 			emails[c[1]] = c[0]
-	return bottle.template("mail",{"emails":emails})
+	return template("mail",{"emails":emails})
 	
-@bottle.post('/mass_mail')
+@post('/mass_mail')
 def mass_mail():
 	# Requesting the entered data
 	try:
-	   name = strip_tags(bottle.request.forms.get("name"))
-	   password= strip_tags(bottle.request.forms.get("password"))
-	   fromaddr=strip_tags(bottle.request.forms.get("fromaddr"))
-	   to_email= strip_tags(bottle.request.forms.get("P_Email")).split(',')
-	   to_UID= strip_tags(bottle.request.forms.get("P_UID")).split(',')
-	   sub= strip_tags(bottle.request.forms.get("subject"))
-	   msg= strip_tags(bottle.request.forms.get("message"))
+	   name = strip_tags(request.forms.get("name"))
+	   password= strip_tags(request.forms.get("password"))
+	   fromaddr=strip_tags(request.forms.get("fromaddr"))
+	   to_email= strip_tags(request.forms.get("P_Email")).split(',')
+	   to_UID= strip_tags(request.forms.get("P_UID")).split(',')
+	   sub= strip_tags(request.forms.get("subject"))
+	   msg= strip_tags(request.forms.get("message"))
 	except:
 	       err = "Please enter all the requestef field's"
-	       bottle.template("except",{'err':err})
+	       template("except",{'err':err})
 	err = noticeEmail(name,password,fromaddr,to_email,sub,msg)
 	if err!=" ":
 		#Handling erros
-		return bottle.template("except",{"err":err})
+		return template("except",{"err":err})
 	else:	
 		# Inserting data into the database
 		insert_data(name,to_UID,sub,msg)
-		return bottle.template("sucess")
+		return template("sucess")
 
 
-@bottle.route('/emails/sent')
+@route('/emails/sent')
 def emails_sent():
 	connection = pymongo.MongoClient('mongodb://localhost')
 	db = connection.practo
 	post = db.mailer
-	return bottle.template("mail_blog",{'mailer':post})
+	return template("mail_blog",{'mailer':post})
 
-@bottle.error(404)
+@error(404)
 def error404(error):
-    return 'Nothing here, sorry'
+    err =  'Nothing here, sorry'
+    return template('except',{'err':err})
 
-bottle.debug(True)
-bottle.run(host='localhost',port=8080)
+debug(True)
+run(host='localhost',port=8080)
