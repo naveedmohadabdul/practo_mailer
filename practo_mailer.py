@@ -127,9 +127,12 @@ def mass_mail():
 
 @route('/emails/sent')
 def emails_sent():
-	connection = pymongo.MongoClient('mongodb://localhost')
-	db = connection.practo
-	post = db.mailer
+        try:
+	   connection = pymongo.MongoClient('mongodb://localhost')
+	   db = connection.practo
+	   post = db.mailer
+	except Exception, err:
+               		return template("except",{"err":str(err)})	    
 	return template("mail_blog",{'mailer':post})
 
 @error(404,err='')
