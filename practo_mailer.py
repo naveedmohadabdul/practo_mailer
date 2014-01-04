@@ -135,7 +135,7 @@ def emails_sent():
                		return template("except",{"err":str(err)})	    
 	return template("mail_blog",{'mailer':post})
 
-@error(404,err='')
+@error(404)
 def error404(error):
     err =  'Nothing here, sorry'
     return template('except',{'err':err})
