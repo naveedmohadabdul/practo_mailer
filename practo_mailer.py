@@ -74,16 +74,21 @@ def home_page():
 	h = httplib2.Http(".cache")
 	h.add_credentials('user', 'pass')
 	#Pulling data from the apiary.io api
-	r, content = h.request("https://patients.apiary.io/patients", "GET")
-	#Loading json's content 
-	data = json.loads(content)
+	try :
+	   r, content = h.request("https://patients.apiary.io/patients", "GET")
+	   #Loading json's content 
+	   data = json.loads(content)
+	except httplib2.ServerNotFoundError:
+                return template("except",{"err":"Site is Down"}) 
+        except Exception:
+                return template("except",{"err":"Json's format is not right"}) 
 	return template('app',{'items':data})
 
 @post('/body_filter')
 def body_filter():
 	#Script for retrieving the body of the post  
 	body =  request.body.readlines()
-	#Filtering the body's  request
+	#Filtering the body's  request as Bottle does not provide access to multivalued attributes. 
 	body = body[0].replace('%40','@').replace('email=','').replace('&submit=Submit','').replace('Mail=Mail','').split('&')
 	if body[0]=='':
 		err = "Patients not Selected"
@@ -127,7 +132,7 @@ def emails_sent():
 	post = db.mailer
 	return template("mail_blog",{'mailer':post})
 
-@error(404)
+@error(404,err='')
 def error404(error):
     err =  'Nothing here, sorry'
     return template('except',{'err':err})
